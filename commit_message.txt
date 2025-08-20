@@ -1,1 +1,1 @@
-feat: dockerize application
+feat: setup aws infrastructure
