@@ -1,1 +1,1 @@
-feat: add image slider to homepage
+feat: update image slider with content and styling
