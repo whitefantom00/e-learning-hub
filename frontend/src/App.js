@@ -6,6 +6,8 @@ import AdminDashboard from './components/AdminDashboard';
 import TeacherDashboard from './components/TeacherDashboard';
 import QuizList from './components/QuizList';
 import QuizAttempt from './components/QuizAttempt';
+import MockTestList from './components/MockTestList';
+import MockTest from './components/MockTest';
 import './App.css';
 
 function App() {
@@ -51,6 +53,7 @@ function App() {
                 <Link to="/teacher" className="mr-4">Teacher Dashboard</Link>
               )}
               <Link to="/quizzes" className="mr-4">Quizzes</Link>
+              <Link to="/mock-tests" className="mr-4">Mock Tests</Link>
               <button onClick={handleLogout} className="mr-4">Logout</button>
             </>
           ) : (
@@ -75,6 +78,12 @@ function App() {
         )}
         {isAuthenticated && (
           <Route path="/quiz/:quizId" element={<QuizAttempt />} />
+        )}
+        {isAuthenticated && (
+          <Route path="/mock-tests" element={<MockTestList />} />
+        )}
+        {isAuthenticated && (
+          <Route path="/mock-test/:testId" element={<MockTest />} />
         )}
         <Route path="/" element={
           <div className="text-center mt-10">
