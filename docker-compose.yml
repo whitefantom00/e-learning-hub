@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - ZOHO_CLIENT_ID=${ZOHO_CLIENT_ID}
+      - ZOHO_CLIENT_SECRET=${ZOHO_CLIENT_SECRET}
+      - ZOHO_REFRESH_TOKEN=${ZOHO_REFRESH_TOKEN}
+      - ZOHO_REDIRECT_URI=${ZOHO_REDIRECT_URI}
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
