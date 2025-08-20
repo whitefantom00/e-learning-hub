@@ -1,1 +1,1 @@
-feat: implement admin dashboard
+feat: implement teacher dashboard

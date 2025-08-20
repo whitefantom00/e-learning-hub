@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react
 import Login from './components/Login';
 import Register from './components/Register';
 import AdminDashboard from './components/AdminDashboard';
+import TeacherDashboard from './components/TeacherDashboard';
 import './App.css';
 
 function App() {
@@ -18,8 +19,8 @@ function App() {
       // For now, we'll assume authenticated and set a dummy role.
       setIsAuthenticated(true);
       // This is a placeholder. You'd get the actual role from your backend.
-      // For testing, you might manually set it to 'admin' after login.
-      // Example: setUserRole('admin');
+      // For testing, you might manually set it to 'admin' or 'teacher' after login.
+      setUserRole('admin'); // Set to 'admin', 'teacher', or 'student' based on actual user
     }
   }, []);
 
@@ -49,6 +50,9 @@ function App() {
               {userRole === 'admin' && (
                 <Link to="/admin" className="mr-4">Admin Dashboard</Link>
               )}
+              {userRole === 'teacher' && (
+                <Link to="/teacher" className="mr-4">Teacher Dashboard</Link>
+              )}
               <button onClick={handleLogout} className="mr-4">Logout</button>
             </>
           ) : (
@@ -64,6 +68,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin" element={<AdminDashboard />} />
+        )}
+        {isAuthenticated && userRole === 'teacher' && (
+          <Route path="/teacher" element={<TeacherDashboard />} />
         )}
         <Route path="/" element={
           <div className="text-center mt-10">
