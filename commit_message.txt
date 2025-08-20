@@ -1,1 +1,1 @@
-feat: setup ci/cd pipeline
+feat: add role to user model
