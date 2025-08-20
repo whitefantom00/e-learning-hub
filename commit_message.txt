@@ -1,1 +1,1 @@
-feat: setup database
+feat: setup ci/cd pipeline
