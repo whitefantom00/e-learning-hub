@@ -1,1 +1,1 @@
-feat: setup aws infrastructure
+feat: deploy to production
