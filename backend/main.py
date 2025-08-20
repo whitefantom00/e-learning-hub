@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from . import models, schemas, auth
+from . import models, schemas, auth, zoho_crm
 from .database import SessionLocal, engine
 import json
 
@@ -27,6 +27,10 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    # Create contact in Zoho CRM
+    create_zoho_contact(user.email)
+
     return db_user
 
 @app.post("/token", response_model=schemas.Token)
