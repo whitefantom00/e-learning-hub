@@ -10,7 +10,7 @@ import MockTestList from './components/MockTestList';
 import MockTest from './components/MockTest';
 import TestResults from './components/TestResults';
 import ImageSlider from './components/ImageSlider';
-import LogoMarquee from './components/LogoMarquee';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -43,7 +43,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App flex flex-col min-h-screen">
       <nav className="bg-gray-800 p-4 text-white flex justify-between items-center">
         <Link to="/" className="text-xl font-bold">E-Learning Hub</Link>
         <div>
@@ -98,10 +98,10 @@ function App() {
             <p className="mt-4 text-lg">Your platform for IELTS mock tests and training.</p>
             {isAuthenticated && <p className="mt-2">You are logged in as {userRole}.</p>}
             <ImageSlider className="mt-8" />
-            <LogoMarquee />
           </div>
         } />
       </Routes>
+      <Footer />
     </div>
   );
 }

@@ -1,1 +1,1 @@
-feat: add running logo to homepage
+feat: move logos to footer and remove running effect
