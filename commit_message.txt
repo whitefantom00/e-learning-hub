@@ -1,1 +1,1 @@
-style: update image slider layout and background
+style: adjust image slider layout and alt text
