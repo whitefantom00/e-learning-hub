@@ -1,1 +1,1 @@
-feat: implement user login
+feat: implement frontend authentication
