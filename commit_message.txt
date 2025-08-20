@@ -1,1 +1,1 @@
-style: add margin top to image slider
+feat: add running logo to homepage

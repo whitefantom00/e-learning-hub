@@ -10,6 +10,7 @@ import MockTestList from './components/MockTestList';
 import MockTest from './components/MockTest';
 import TestResults from './components/TestResults';
 import ImageSlider from './components/ImageSlider';
+import LogoMarquee from './components/LogoMarquee';
 import './App.css';
 
 function App() {
@@ -97,6 +98,7 @@ function App() {
             <p className="mt-4 text-lg">Your platform for IELTS mock tests and training.</p>
             {isAuthenticated && <p className="mt-2">You are logged in as {userRole}.</p>}
             <ImageSlider className="mt-8" />
+            <LogoMarquee />
           </div>
         } />
       </Routes>
