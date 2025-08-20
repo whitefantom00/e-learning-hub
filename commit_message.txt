@@ -1,1 +1,1 @@
-feat: update image slider with content and styling
+feat: move image slider below welcome message

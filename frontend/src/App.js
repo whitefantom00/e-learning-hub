@@ -93,10 +93,10 @@ function App() {
         )}
         <Route path="/" element={
           <div className="text-center mt-10">
-            <ImageSlider />
-            <h1 className="text-4xl font-bold mt-4">Welcome to E-Learning Hub</h1>
+            <h1 className="text-4xl font-bold">Welcome to E-Learning Hub</h1>
             <p className="mt-4 text-lg">Your platform for IELTS mock tests and training.</p>
             {isAuthenticated && <p className="mt-2">You are logged in as {userRole}.</p>}
+            <ImageSlider />
           </div>
         } />
       </Routes>
