@@ -1,1 +1,1 @@
-feat: move image slider below welcome message
+style: add margin top to image slider
