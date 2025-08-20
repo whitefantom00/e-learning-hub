@@ -1,1 +1,1 @@
-feat: implement frontend authentication
+feat: implement role-based access control
