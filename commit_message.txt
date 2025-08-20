@@ -1,1 +1,1 @@
-feat: implement quiz management
+feat: implement interactive quiz ui

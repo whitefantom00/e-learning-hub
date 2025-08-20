@@ -4,6 +4,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import AdminDashboard from './components/AdminDashboard';
 import TeacherDashboard from './components/TeacherDashboard';
+import QuizList from './components/QuizList';
+import QuizAttempt from './components/QuizAttempt';
 import './App.css';
 
 function App() {
@@ -14,12 +16,8 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (token) {
-      // In a real app, you would verify the token with your backend
-      // and fetch user details including role.
-      // For now, we'll assume authenticated and set a dummy role.
       setIsAuthenticated(true);
       // This is a placeholder. You'd get the actual role from your backend.
-      // For testing, you might manually set it to 'admin' or 'teacher' after login.
       setUserRole('admin'); // Set to 'admin', 'teacher', or 'student' based on actual user
     }
   }, []);
@@ -28,9 +26,8 @@ function App() {
     localStorage.setItem('access_token', token);
     setIsAuthenticated(true);
     // Fetch user role from backend after successful login
-    // For now, setting a dummy role for demonstration
     setUserRole('admin'); // Set to 'admin', 'teacher', or 'student' based on actual user
-    navigate('/'); // Redirect to home or dashboard after login
+    navigate('/');
   };
 
   const handleLogout = () => {
@@ -53,6 +50,7 @@ function App() {
               {userRole === 'teacher' && (
                 <Link to="/teacher" className="mr-4">Teacher Dashboard</Link>
               )}
+              <Link to="/quizzes" className="mr-4">Quizzes</Link>
               <button onClick={handleLogout} className="mr-4">Logout</button>
             </>
           ) : (
@@ -71,6 +69,12 @@ function App() {
         )}
         {isAuthenticated && userRole === 'teacher' && (
           <Route path="/teacher" element={<TeacherDashboard />} />
+        )}
+        {isAuthenticated && (
+          <Route path="/quizzes" element={<QuizList />} />
+        )}
+        {isAuthenticated && (
+          <Route path="/quiz/:quizId" element={<QuizAttempt />} />
         )}
         <Route path="/" element={
           <div className="text-center mt-10">
