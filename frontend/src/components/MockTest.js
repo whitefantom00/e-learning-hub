@@ -7,39 +7,49 @@ function MockTest() {
   const [answers, setAnswers] = useState({});
   const [message, setMessage] = useState('');
   const [currentSection, setCurrentSection] = useState('listening'); // listening, reading, writing
-
-  // Dummy data for a mock test (replace with API calls)
-  const dummyTest = {
-    id: 1,
-    title: "IELTS Mock Test 1",
-    description: "A full-length IELTS mock test.",
-    sections: {
-      listening: {
-        title: "Listening Section",
-        questions: [
-          { id: 1, text: "What is the capital of France?", options: ["London", "Paris", "Rome", "Berlin"], correctAnswer: "Paris" },
-          { id: 2, text: "What is 2 + 2?", options: ["3", "4", "5", "6"], correctAnswer: "4" },
-        ],
-      },
-      reading: {
-        title: "Reading Section",
-        passage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        questions: [
-          { id: 3, text: "What is the main idea of the passage?", options: ["A", "B", "C", "D"], correctAnswer: "A" },
-          { id: 4, text: "According to the passage, what is ...?", options: ["X", "Y", "Z", "W"], correctAnswer: "X" },
-        ],
-      },
-      writing: {
-        title: "Writing Section",
-        task1: "Describe the graph below.",
-        task2: "Write an essay on the topic...",
-      },
-    },
-  };
+  const [results, setResults] = useState(null);
 
   useEffect(() => {
-    // In a real application, fetch test data from backend
-    setTest(dummyTest);
+    const fetchTest = async () => {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        setMessage('Error: Not authenticated.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8000/mock-tests/${testId}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || 'Failed to fetch mock test');
+        }
+
+        const data = await response.json();
+        // Parse options if they are stored as JSON strings
+        const parsedSections = {};
+        data.sections.forEach(section => {
+          if (section.questions) {
+            section.questions = section.questions.map(q => ({
+              ...q,
+              options: typeof q.options === 'string' ? JSON.parse(q.options) : q.options
+            }));
+          }
+          parsedSections[section.title] = section;
+        });
+        setTest({ ...data, sections: parsedSections });
+      } catch (error) {
+        setMessage(`Error: ${error.message}`);
+      }
+    };
+
+    fetchTest();
   }, [testId]);
 
   const handleAnswerChange = (section, questionId, value) => {
@@ -62,10 +72,31 @@ function MockTest() {
     }));
   };
 
-  const handleSubmitTest = () => {
-    // In a real application, send answers to backend for grading
-    setMessage('Mock test submitted for grading!');
-    console.log('Submitted Answers:', answers);
+  const handleSubmitTest = async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    try {
+      const response = await fetch(`http://localhost:8000/mock-tests/${testId}/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ test_id: parseInt(testId), answers: answers }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to submit test');
+      }
+
+      const data = await response.json();
+      setResults(data);
+      setMessage('Mock test submitted for grading!');
+    } catch (error) {
+      setMessage(`Error: ${error.message}`);
+    }
   };
 
   if (!test) {
@@ -99,7 +130,7 @@ function MockTest() {
         </button>
       </div>
 
-      {currentSection === 'listening' && (
+      {currentSection === 'listening' && test.sections.listening && (
         <div className="bg-white p-4 rounded shadow-md">
           <h3 className="text-xl font-semibold mb-4">{test.sections.listening.title}</h3>
           {test.sections.listening.questions.map((question, index) => (
@@ -125,7 +156,7 @@ function MockTest() {
         </div>
       )}
 
-      {currentSection === 'reading' && (
+      {currentSection === 'reading' && test.sections.reading && (
         <div className="bg-white p-4 rounded shadow-md">
           <h3 className="text-xl font-semibold mb-4">{test.sections.reading.title}</h3>
           <p className="mb-4">{test.sections.reading.passage}</p>
@@ -152,7 +183,7 @@ function MockTest() {
         </div>
       )}
 
-      {currentSection === 'writing' && (
+      {currentSection === 'writing' && test.sections.writing && (
         <div className="bg-white p-4 rounded shadow-md">
           <h3 className="text-xl font-semibold mb-4">{test.sections.writing.title}</h3>
           <div className="mb-4">
@@ -182,6 +213,14 @@ function MockTest() {
       >
         Submit Mock Test
       </button>
+
+      {results && (
+        <div className="mt-4 p-4 bg-blue-100 rounded shadow-md">
+          <h3 className="text-xl font-semibold mb-2">Results:</h3>
+          <p>Listening Score: {results.listening_score} / {results.total_questions_listening}</p>
+          <p>Reading Score: {results.reading_score} / {results.total_questions_reading}</p>
+        </div>
+      )}
     </div>
   );
 }
