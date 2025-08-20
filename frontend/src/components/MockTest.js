@@ -219,6 +219,14 @@ function MockTest() {
           <h3 className="text-xl font-semibold mb-2">Results:</h3>
           <p>Listening Score: {results.listening_score} / {results.total_questions_listening}</p>
           <p>Reading Score: {results.reading_score} / {results.total_questions_reading}</p>
+          {results.writing_feedback && (
+            <div className="mt-4">
+              <h4 className="font-semibold">Writing Feedback:</h4>
+              <p>Task 1: {results.writing_feedback.task1_feedback}</p>
+              <p>Task 2: {results.writing_feedback.task2_feedback}</p>
+              <p>Overall: {results.writing_feedback.overall_suggestion}</p>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -296,12 +296,28 @@ async def submit_mock_test(test_id: int, submission: schemas.MockTestSubmission,
             if str(question.id) in submission.answers["reading"] and submission.answers["reading"][str(question.id)] == question.correct_answer:
                 reading_score += 1
 
+    # Grade Writing Section using Gemini API
+    writing_feedback = None
+    if "writing" in submission.answers:
+        task1_answer = submission.answers["writing"].get("task1", "")
+        task2_answer = submission.answers["writing"].get("task2", "")
+        
+        # Placeholder for Gemini API call
+        # In a real application, you would send task1_answer and task2_answer to Gemini API
+        # and get feedback and suggestions.
+        writing_feedback = {
+            "task1_feedback": "This is a placeholder feedback for Task 1 from Gemini API.",
+            "task2_feedback": "This is a placeholder feedback for Task 2 from Gemini API.",
+            "overall_suggestion": "Overall placeholder suggestion from Gemini API."
+        }
+
     return {
         "message": "Mock test submitted successfully",
         "listening_score": listening_score,
         "reading_score": reading_score,
         "total_questions_listening": len(listening_section.questions) if listening_section else 0,
         "total_questions_reading": len(reading_section.questions) if reading_section else 0,
+        "writing_feedback": writing_feedback
     }
 
 @app.get("/")
