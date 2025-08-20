@@ -2,6 +2,11 @@ import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
+// Import local images
+import ieltsMockTestImage from './pictures/ielts-mock-test.png';
+import expertTrainingImage from './pictures/expert-training.png';
+import personalizedFeedbackImage from './pictures/personalized-feedback.png';
+
 function ImageSlider() {
   return (
     <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false} dynamicHeight={true}>
@@ -13,7 +18,7 @@ function ImageSlider() {
             <button className="bg-blue-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300">Start a Mock Test</button>
           </div>
           <div className="flex items-center justify-center h-full col-span-2">
-            <img src="https://via.placeholder.com/600x400?text=IELTS+Mock+Test+Image" alt="IELTS Mock Test illustration" className="object-cover h-full w-full" />
+            <img src={ieltsMockTestImage} alt="IELTS Mock Test illustration" className="object-contain h-full w-full" />
           </div>
         </div>
       </div>
@@ -25,7 +30,7 @@ function ImageSlider() {
             <button className="bg-green-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-green-700 transition duration-300">Explore Courses</button>
           </div>
           <div className="flex items-center justify-center h-full col-span-2">
-            <img src="https://via.placeholder.com/600x400?text=Expert+Training+Image" alt="Expert Training illustration" className="object-cover h-full w-full" />
+            <img src={expertTrainingImage} alt="Expert Training illustration" className="object-contain h-full w-full" />
           </div>
         </div>
       </div>
@@ -37,7 +42,7 @@ function ImageSlider() {
             <button className="bg-red-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-red-700 transition duration-300">Get Feedback</button>
           </div>
           <div className="flex items-center justify-center h-full col-span-2">
-            <img src="https://via.placeholder.com/600x400?text=Personalized+Feedback+Image" alt="Personalized Feedback illustration" className="object-cover h-full w-full" />
+            <img src={personalizedFeedbackImage} alt="Personalized Feedback illustration" className="object-contain h-full w-full" />
           </div>
         </div>
       </div>

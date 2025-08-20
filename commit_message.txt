@@ -1,1 +1,1 @@
-style: adjust image slider layout and alt text
+feat: use local images for slider and logos

@@ -1,13 +1,21 @@
 import React from 'react';
 
+// Import local logos
+import ieltsLogo from './logos/ielts.png';
+import aLevelLogo from './logos/a-level.png';
+import toeflLogo from './logos/toefl.png';
+import pteLogo from './logos/pte.png';
+import cambridgeLogo from './logos/cambridge.png';
+import duolingoLogo from './logos/duolingo.png';
+
 function Footer() {
   const logos = [
-    "https://via.placeholder.com/100x50?text=IELTS",
-    "https://via.placeholder.com/100x50?text=A-Level",
-    "https://via.placeholder.com/100x50?text=TOEFL",
-    "https://via.placeholder.com/100x50?text=PTE",
-    "https://via.placeholder.com/100x50?text=Cambridge",
-    "https://via.placeholder.com/100x50?text=Duolingo",
+    ieltsLogo,
+    aLevelLogo,
+    toeflLogo,
+    pteLogo,
+    cambridgeLogo,
+    duolingoLogo,
   ];
 
   return (
