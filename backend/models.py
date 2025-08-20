@@ -75,3 +75,18 @@ class MockTestQuestion(Base):
     section_id = Column(Integer, ForeignKey("mock_test_sections.id"))
 
     section = relationship("MockTestSection", back_populates="questions")
+
+class TestResult(Base):
+    __tablename__ = "test_results"
+
+    id = Column(Integer, primary_key=True, index=True)
+    mock_test_id = Column(Integer, ForeignKey("mock_tests.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    listening_score = Column(Integer)
+    reading_score = Column(Integer)
+    writing_feedback = Column(String) # Storing as JSON string
+    total_questions_listening = Column(Integer)
+    total_questions_reading = Column(Integer)
+
+    mock_test = relationship("MockTest")
+    user = relationship("User")

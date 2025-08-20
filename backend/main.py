@@ -320,6 +320,27 @@ async def submit_mock_test(test_id: int, submission: schemas.MockTestSubmission,
         "writing_feedback": writing_feedback
     }
 
+@app.post("/test-results/", response_model=schemas.TestResult)
+async def create_test_result(test_result: schemas.TestResultCreate, db: Session = Depends(get_db), current_user: schemas.User = Depends(auth.get_current_active_user)):
+    db_test_result = models.TestResult(
+        mock_test_id=test_result.mock_test_id,
+        user_id=current_user.id,
+        listening_score=test_result.listening_score,
+        reading_score=test_result.reading_score,
+        writing_feedback=json.dumps(test_result.writing_feedback) if test_result.writing_feedback else None,
+        total_questions_listening=test_result.total_questions_listening,
+        total_questions_reading=test_result.total_questions_reading
+    )
+    db.add(db_test_result)
+    db.commit()
+    db.refresh(db_test_result)
+    return db_test_result
+
+@app.get("/test-results/me/", response_model=list[schemas.TestResult])
+async def read_my_test_results(db: Session = Depends(get_db), current_user: schemas.User = Depends(auth.get_current_active_user)):
+    test_results = db.query(models.TestResult).filter(models.TestResult.user_id == current_user.id).all()
+    return test_results
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}

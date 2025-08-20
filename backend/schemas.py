@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Any
 
 class UserCreate(BaseModel):
     email: str
@@ -111,3 +111,21 @@ class MockTest(MockTestBase):
 class MockTestSubmission(BaseModel):
     test_id: int
     answers: Dict[str, Dict[str, str]] # section_name: {question_id: answer}
+
+class TestResultBase(BaseModel):
+    mock_test_id: int
+    user_id: int
+    listening_score: int
+    reading_score: int
+    writing_feedback: Optional[Dict[str, Any]]
+    total_questions_listening: int
+    total_questions_reading: int
+
+class TestResultCreate(TestResultBase):
+    pass
+
+class TestResult(TestResultBase):
+    id: int
+
+    class Config:
+        orm_mode = True

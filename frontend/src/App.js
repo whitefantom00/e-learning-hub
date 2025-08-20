@@ -8,6 +8,7 @@ import QuizList from './components/QuizList';
 import QuizAttempt from './components/QuizAttempt';
 import MockTestList from './components/MockTestList';
 import MockTest from './components/MockTest';
+import TestResults from './components/TestResults';
 import './App.css';
 
 function App() {
@@ -54,12 +55,13 @@ function App() {
               )}
               <Link to="/quizzes" className="mr-4">Quizzes</Link>
               <Link to="/mock-tests" className="mr-4">Mock Tests</Link>
+              <Link to="/test-results" className="mr-4">My Results</Link>
               <button onClick={handleLogout} className="mr-4">Logout</button>
             </>
           ) : (
             <>
               <Link to="/login" className="mr-4">Login</Link>
-              <Link to="/register">Register</Link>
+              <Link to="/register" className="mr-4">Register</Link>
             </>
           )}
         </div>
@@ -84,6 +86,9 @@ function App() {
         )}
         {isAuthenticated && (
           <Route path="/mock-test/:testId" element={<MockTest />} />
+        )}
+        {isAuthenticated && (
+          <Route path="/test-results" element={<TestResults />} />
         )}
         <Route path="/" element={
           <div className="text-center mt-10">

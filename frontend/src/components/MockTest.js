@@ -94,6 +94,30 @@ function MockTest() {
       const data = await response.json();
       setResults(data);
       setMessage('Mock test submitted for grading!');
+
+      // Save test results to the backend
+      const saveResultResponse = await fetch('http://localhost:8000/test-results/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          mock_test_id: parseInt(testId),
+          listening_score: data.listening_score,
+          reading_score: data.reading_score,
+          writing_feedback: data.writing_feedback,
+          total_questions_listening: data.total_questions_listening,
+          total_questions_reading: data.total_questions_reading,
+        }),
+      });
+
+      if (!saveResultResponse.ok) {
+        const errorData = await saveResultResponse.json();
+        console.error('Failed to save test results:', errorData);
+        setMessage(`Error saving results: ${errorData.detail || 'Unknown error'}`);
+      }
+
     } catch (error) {
       setMessage(`Error: ${error.message}`);
     }
