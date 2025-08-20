@@ -1,1 +1,1 @@
-feat: initialize fastapi backend
+feat: initialize react frontend with tailwind css
