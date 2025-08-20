@@ -1,1 +1,1 @@
-feat: add role to user model
+feat: implement user registration
