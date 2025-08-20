@@ -1,21 +1,19 @@
 import React from 'react';
 
 // Import local logos
-import ieltsLogo from './logos/ielts.png';
-import aLevelLogo from './logos/a-level.png';
-import toeflLogo from './logos/toefl.png';
-import pteLogo from './logos/pte.png';
-import cambridgeLogo from './logos/cambridge.png';
-import duolingoLogo from './logos/duolingo.png';
+import ieltsLogo from './logos/IELTS.jpg';
+import gmatLogo from './logos/GMAT.png';
+import toeflLogo from './logos/TOEFL.jpg';
+import toeicLogo from './logos/TOEIC.jpg';
+import aLevelLogo from './logos/ALEVEL.jpeg';
 
 function Footer() {
   const logos = [
     ieltsLogo,
     aLevelLogo,
     toeflLogo,
-    pteLogo,
-    cambridgeLogo,
-    duolingoLogo,
+    gmatLogo,
+    toeicLogo
   ];
 
   return (

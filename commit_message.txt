@@ -1,1 +1,1 @@
-feat: use local images for slider and logos
+docs: add image optimization note to image slider
