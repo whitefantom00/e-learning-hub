@@ -3,9 +3,9 @@ import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 // Import local images
-import ieltsMockTestImage from './pictures/ielts-mock-test.png';
-import expertTrainingImage from './pictures/expert-training.png';
-import personalizedFeedbackImage from './pictures/personalized-feedback.png';
+import ieltsMockTestImage from './pictures/ielts-mock-test.jpg';
+import expertTrainingImage from './pictures/expert-training.jpg';
+import personalizedFeedbackImage from './pictures/personalized-feedback.jpg';
 
 function ImageSlider() {
   return (
@@ -18,11 +18,6 @@ function ImageSlider() {
             <button className="bg-blue-600 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300">Start a Mock Test</button>
           </div>
           <div className="flex items-center justify-center h-full col-span-2">
-            {/* 
-              Ensure images are optimized for web (e.g., compressed, appropriate dimensions)
-              for optimal performance. The 'object-contain' and 'h-full w-full' classes
-              will make them fit within the container while maintaining aspect ratio.
-            */}
             <img src={ieltsMockTestImage} alt="IELTS Mock Test illustration" className="object-contain h-full w-full" />
           </div>
         </div>

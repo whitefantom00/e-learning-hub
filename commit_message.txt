@@ -1,1 +1,1 @@
-docs: add image optimization note to image slider
+refactor: remove zoho crm integration for this patch

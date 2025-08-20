@@ -5,6 +5,7 @@ from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from .models import User # Import User model
 
 # Configuration for JWT
 SECRET_KEY = "your-secret-key"
