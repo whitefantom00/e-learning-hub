@@ -1,1 +1,1 @@
-feat: initialize react frontend with tailwind css
+feat: setup database
