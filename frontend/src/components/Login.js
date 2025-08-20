@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -28,6 +28,7 @@ function Login() {
 
       const data = await response.json();
       localStorage.setItem('access_token', data.access_token);
+      onLogin(data.access_token);
       setMessage('Login successful!');
       // Redirect or update UI as needed
     } catch (error) {

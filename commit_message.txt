@@ -1,1 +1,1 @@
-feat: implement role-based access control
+feat: implement admin dashboard
