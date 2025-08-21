@@ -15,6 +15,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     role = Column(String, default=UserRole.student)
+    disabled = Column(Integer, default=0)
 
     quizzes = relationship("Quiz", back_populates="owner")
     mock_tests = relationship("MockTest", back_populates="owner")
@@ -40,6 +41,11 @@ class Question(Base):
     quiz_id = Column(Integer, ForeignKey("quizzes.id"))
 
     quiz = relationship("Quiz", back_populates="questions")
+    
+    @property
+    def options_list(self):
+        import json
+        return json.loads(self.options)
 
 class MockTest(Base):
     __tablename__ = "mock_tests"

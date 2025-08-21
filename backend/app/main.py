@@ -1,13 +1,31 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+
+
+from fastapi import FastAPI, Depends, HTTPException, status, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from . import models, schemas, auth
-from .database import SessionLocal, engine
+from app import models, schemas, auth
+from app.database import SessionLocal, engine, init_db
 import json
+from fastapi.middleware.cors import CORSMiddleware
 
-models.Base.metadata.create_all(bind=engine)
+# Initialize the database
+init_db()
 
 app = FastAPI()
+
+# Add CORS middleware before any route definitions
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change to your frontend URL(s) in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Explicit OPTIONS handler for /users/ to handle CORS preflight
+@app.options("/users/")
+async def options_users():
+    return Response(status_code=200)
 
 # Dependency to get the database session
 def get_db():
@@ -17,16 +35,33 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/users/", response_model=schemas.UserCreate)
+@app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    # Check if user exists first
     db_user = db.query(models.User).filter(models.User.email == user.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
+    
+    # Validate input
+    if user.password != user.re_password:
+        raise HTTPException(status_code=400, detail="Passwords do not match")
+    if not user.email.endswith("@gmail.com"):
+        raise HTTPException(status_code=400, detail="Only Gmail addresses are allowed")
+    if len(user.password) < 8:
+        raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
+    if not any(c.isdigit() for c in user.password) or not any(c.isalpha() for c in user.password):
+        raise HTTPException(status_code=400, detail="Password must contain both letters and numbers")
+        
+    # Create user
     hashed_password = auth.get_password_hash(user.password)
     db_user = models.User(email=user.email, hashed_password=hashed_password)
     db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
+    try:
+        db.commit()
+        db.refresh(db_user)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Failed to create user")
     return db_user
 
 @app.post("/token", response_model=schemas.Token)

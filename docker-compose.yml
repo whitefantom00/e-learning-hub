@@ -7,11 +7,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-    environment:
-      - ZOHO_CLIENT_ID=${ZOHO_CLIENT_ID}
-      - ZOHO_CLIENT_SECRET=${ZOHO_CLIENT_SECRET}
-      - ZOHO_REFRESH_TOKEN=${ZOHO_REFRESH_TOKEN}
-      - ZOHO_REDIRECT_URI=${ZOHO_REDIRECT_URI}
+    
 
   frontend:
     build: ./frontend

@@ -3,11 +3,34 @@ import React, { useState } from 'react';
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!/^[a-zA-Z0-9_.+-]+@gmail\.com$/.test(email)) {
+      newErrors.email = 'Email must be a valid Gmail address.';
+    }
+    if (password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters.';
+    }
+    if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+      newErrors.password = 'Password must contain both letters and numbers.';
+    }
+    if (password !== rePassword) {
+      newErrors.rePassword = 'Passwords do not match.';
+    }
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
 
     try {
       const response = await fetch('http://localhost:8000/users/', {
@@ -15,7 +38,7 @@ function Register() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, re_password: rePassword }),
       });
 
       if (!response.ok) {
@@ -26,6 +49,7 @@ function Register() {
       setMessage('Registration successful! You can now log in.');
       setEmail('');
       setPassword('');
+      setRePassword('');
     } catch (error) {
       setMessage(`Error: ${error.message}`);
     }
@@ -53,19 +77,45 @@ function Register() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
             <div>
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+            </div>
+            <div>
+              <input
+                id="re-password"
+                name="re-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Re-enter Password"
+                value={rePassword}
+                onChange={(e) => setRePassword(e.target.value)}
+              />
+              {errors.rePassword && <p className="text-red-500 text-xs mt-1">{errors.rePassword}</p>}
+            </div>
+            <div className="flex items-center mt-2">
+              <input
+                id="show-password"
+                type="checkbox"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+                className="mr-2"
+              />
+              <label htmlFor="show-password" className="text-sm text-gray-700">Show Password</label>
             </div>
           </div>
 

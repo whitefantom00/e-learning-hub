@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 
 class UserCreate(BaseModel):
     email: str
     password: str
+    re_password: str
 
 class UserLogin(BaseModel):
     email: str
@@ -17,6 +18,7 @@ class User(BaseModel):
     id: int
     email: str
     role: str
+    disabled: int = 0
 
     class Config:
         orm_mode = True
@@ -40,6 +42,14 @@ class Question(QuestionBase):
 
     class Config:
         orm_mode = True
+        allow_population_by_field_name = True
+
+    @property
+    def options_list(self) -> List[str]:
+        import json
+        if isinstance(self.options, str):
+            return json.loads(self.options)
+        return self.options
 
 class QuizBase(BaseModel):
     title: str
